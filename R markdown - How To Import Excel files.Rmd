@@ -16,12 +16,15 @@ knitr::opts_chunk$set(echo = TRUE)
  
  
 * fig.show = “hide”: Hides plots. (leave two trailing spaces/lines to start new line in text)
+
+
 ## R Markdown - Import Excel file
 
 
 ```{r}
 library(readxl)
-covid_data<-read_excel("C:/Users/Faith Kabanda/Desktop/My Research Work/Vaccines VS Data/covid who data.xlsx", sheet = "Jan 2021", range = "A1:E32")
+covid_data<- read_excel("C:/Users/Faith Kabanda/OneDrive/Desktop/My Research Work/Vaccines VS Data/covid who data.xlsx", 
+    sheet = "Jan 2021", range = "A1:E32")
 summary(covid_data$New_cases)
 ```
 
@@ -41,5 +44,22 @@ library(ggplot2)
 new_cases_scatterplot<- ggplot(covid_data, aes(x = Date_reported, y = New_cases)) + geom_point()+ xlab("Days Of The Month") + ylab("New Daily Covid 19 Cases") + ggtitle("January 2021 Covid 19 Daily New Cases")
 new_cases_scatterplot
 ```
+## Pie Chart
+
+
+* If it is stat = "identity" , we are asking R to use the y-value we provide for the dependent variable. If we specify stat = "count" or leave geom_bar() blank, R will count the number of observations based on the x-variable groupings.
+
+* theme_void removes stuff from the background of the data vizualization image.
+
+* under aes, equating*x=""*, creates a pie chart with a complete circle.
+```{r}
+library(ggplot2) #data vizualization
+library(dplyr) #data manipulation
+dataset<-data.frame(group = c("Section 1", "Section 2", "Section 3"), value = c(45, 30, 25))
+head(dataset)
+piechart<- ggplot(dataset, aes( x = "", y = value, fill = group)) + geom_bar(width = 1, stat = "identity", color = "black") + coord_polar("y", start = 0) + geom_col() + geom_text(aes(label = value), position = position_stack(vjust = 0.5)) + theme_void()
+piechart
+```
+
 
 

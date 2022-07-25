@@ -22,7 +22,7 @@ numbers
 
 ## Plots
 
-A grapgh to explain July Covid 19 trends.
+A graph to explain July Covid 19 trends.
 
 
 
