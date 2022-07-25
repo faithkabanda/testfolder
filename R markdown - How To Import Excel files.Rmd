@@ -1,0 +1,45 @@
+---
+title: "R markdow - How To Import An Excel File"
+author: "Faith Kabanda"
+date: "2022-07-25"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Extra Notes
+ 
+* *Echo = FALSE* allows you to hide the code.
+ 
+ 
+* fig.show = “hide”: Hides plots. (leave two trailing spaces/lines to start new line in text)
+## R Markdown - Import Excel file
+
+
+```{r}
+library(readxl)
+covid_data<-read_excel("C:/Users/Faith Kabanda/Desktop/My Research Work/Vaccines VS Data/covid who data.xlsx", sheet = "Jan 2021", range = "A1:E32")
+summary(covid_data$New_cases)
+```
+
+## Bloxplts
+### Short Notes
+* factor(0)
+* stat_boxplot creates whiskers
+```{r}
+library(ggplot2)
+new_cases_boxplot<- ggplot(covid_data, aes(x = factor(0), y = New_cases, fill = "red", color = "black")) +stat_boxplot() + geom_boxplot() + xlab("Days Of The Month") + ylab("New Daily Covid 19 Cases") + ggtitle("January 2021 Covid 19 Daily New Cases")
+new_cases_boxplot
+```
+
+## Scatter Plot
+```{r}
+library(ggplot2)
+new_cases_scatterplot<- ggplot(covid_data, aes(x = Date_reported, y = New_cases)) + geom_point()+ xlab("Days Of The Month") + ylab("New Daily Covid 19 Cases") + ggtitle("January 2021 Covid 19 Daily New Cases")
+new_cases_scatterplot
+```
+
+
