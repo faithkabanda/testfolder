@@ -1,0 +1,107 @@
+---
+title: "R markdown - How To Import An Excel File"
+author: "Faith Kabanda"
+date: "2022-07-25"
+output:
+  html_document:
+    toc: yes
+  word_document:
+    toc: yes
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Notes
+ 
+* *Echo = FALSE* allows you to hide the code.
+ 
+ 
+* fig.show = “hide”: Hides plots. (leave two trailing spaces/lines to start new line in text)
+
+
+* toc: true creates a table of contents. Remember to leave a space between ":" and "true" and remove "default" under *html/word* in **output**
+
+* You can specify the toc_float option to float the table of contents to the left of the main document content. The floating table of contents will always be visible even when the document is scrolled
+
+## R Markdown - Import Excel file
+
+
+```{r}
+library(readxl)
+covid_data<- read_excel("C:/Users/Faith Kabanda/OneDrive/Desktop/My Research Work/Vaccines VS Data/covid who data.xlsx", 
+    sheet = "Jan 2021", range = "A1:E32")
+summary(covid_data$New_cases)
+```
+
+## Bloxplts
+### Short Notes
+* factor(0)
+* stat_boxplot creates whiskers
+```{r}
+library(ggplot2)
+new_cases_boxplot<- ggplot(covid_data, aes(x = factor(0), y = New_cases, fill = "red", color = "black")) +stat_boxplot() + geom_boxplot() + xlab("Days Of The Month") + ylab("New Daily Covid 19 Cases") + ggtitle("January 2021 Covid 19 Daily New Cases")
+new_cases_boxplot
+```
+
+## Scatter Plot
+```{r}
+library(ggplot2)
+new_cases_scatterplot<- ggplot(covid_data, aes(x = Date_reported, y = New_cases)) + geom_point()+ xlab("Days Of The Month") + ylab("New Daily Covid 19 Cases") + ggtitle("January 2021 Covid 19 Daily New Cases")
+new_cases_scatterplot
+```
+
+## Histogram
+```{r}
+library(ggplot2)
+new_cases_histogram<- ggplot(covid_data, aes(x = New_cases)) + geom_histogram(color = "black", fill = "white") + xlab("New Daily Covid 19 Cases") + ylab("Frequency") + ggtitle("January 2021 Covid 19 Daily New Cases Histogram")
+new_cases_histogram
+```
+
+
+
+## Pie Chart
+
+
+* If it is stat = "identity" , we are asking R to use the y-value we provide for the dependent variable. If we specify stat = "count" or leave geom_bar() blank, R will count the number of observations based on the x-variable groupings.
+
+* theme_void removes stuff from the background of the data vizualization image.
+
+* under aes, equating*x=""*, creates a pie chart with a complete circle.
+```{r}
+library(ggplot2) #data vizualization
+library(dplyr) #data manipulation
+dataset<-data.frame(group = c("Section 1", "Section 2", "Section 3"), value = c(45, 30, 25))
+head(dataset)
+piechart<- ggplot(dataset, aes( x = "", y = value, fill = group)) + geom_bar(width = 1, stat = "identity", color = "black") + coord_polar("y", start = 0) + geom_col() + geom_text(aes(label = value), position = position_stack(vjust = 0.5)) + theme_void()
+piechart
+```
+
+## Tables
+
+A very simple table generator, and it is simple by design. It is not intended to replace any other R packages for making tables. The kable() function returns a single table for a single data object, and returns a table that contains multiple tables if the input object is a list of data objects. The kables() function is similar to kable(x) when x is a list of data objects, but kables() accepts a list of kable() values directly instead of data objects (see examples below).
+
+```{r}
+library(kableExtra)
+library(knitr)
+library(dplyr)
+library(reshape2)
+y = data.frame("gender" = c("M","M","F","M","F"),
+                "Q_1" = c(1,1,1,0,0),
+                "Q_2" = c(0,1,0,0,1),
+                "Q_3" = c(1,1,1,1,0),
+                "Q_4" = c(1,0,0,0,1))
+y %>% head() %>% kable() %>% column_spec(1:5,border_left = T, border_right = T) %>% kable_styling() 
+#5 columns in total and kable_styling gives propotional rows and columns giving rise equally size cells/small boxes. Lastly, removing  %>% head() will give the full table.
+
+```
+
+## Attach Images To R Markdown
+
+Pictures are very simple to use but do not offer the ability to adjust the image to fit the page (see Update, below). To adjust the image properties (size, resolution, colors, border, etc), you'll need some form of image editor.
+
+`
+
+
+
