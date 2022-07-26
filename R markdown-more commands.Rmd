@@ -1,0 +1,81 @@
+---
+title: "R Commands"
+author: "Faith Kabanda"
+date: "2022-07-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. For Loops
+
+
+```{r}
+for(i in c(-3, 5, 4, 7, 9, 4, 5)){
+  + print(i^2)
+}
+```
+
+
+## 2. Functions
+
+A function is a set of statements organized together to perform a specific task. R has a large number of in-built functions and the user can create their own functions.
+
+
+*function_name <- function(arg_1, arg_2, ...) {*
+
+
+*Function body*
+
+
+*}*
+
+```{r}
+# Create a sequence of numbers from 32 to 44.
+print(seq(32,44))
+
+# Find mean of numbers from 25 to 82.
+print(mean(25:82))
+
+# Find sum of numbers frm 41 to 68.
+print(sum(41:68))
+```
+
+## Group By And %>%
+Group_by() function belongs to the dplyr package in the R programming language, which groups the data frames. Group_by() function alone will not give any output. It should be followed by summarise() function with an appropriate action to perform. It works similar to GROUP BY in SQL and pivot table in excel.
+
+%>% is called the forward pipe operator in R. It provides a mechanism for chaining commands with a new forward-pipe operator, %>%. This operator will forward a value, or the result of an expression, into the next function call/expression
+
+```{r}
+library(readxl)
+library(magrittr) #to use the pipe command
+library(dplyr) #for the summarise function to work
+candy_data<- read_excel("C:/Users/Faith Kabanda/OneDrive/Documents/L-IFT/GitHub Test folder/testfolder/testfolder/Sweet Tooth Distribution Week 1 Trainees.xlsx", 
+    sheet = "Distribution Records Bulawayo")
+candy_data
+candy_data_by_category<- candy_data %>% group_by(Category) %>% summarise(SubTotal= sum(TotalPrice))
+candy_data_by_category
+```
+
+## Mutate
+
+
+What is mutate in R?
+In R programming, the mutate function is used to create a new variable from a data set. In order to use the function, we need to install the *dplyr* package.
+
+```{r}
+candy_data_mutate<- candy_data %>% mutate(total_production_cost = TotalPrice*0.85)
+candy_data_mutate
+```
+## Vectors
+
+
+Vectors are the simplest data structures in R. They are sequences of elements of the same basic type. These types can be numeric, integer, complex, character, and logical. In R, the more complicated data structures are made with vectors as building-blocks.
+
+
+To create a vector, we use the c() function.
+
+
+
